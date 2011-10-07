@@ -1,0 +1,51 @@
+<head>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4871207-7']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<div class=about>
+  <h2>What is Bookworm?</h2>
+  <p>Bookworm demonstrates a new way of interacting with the millions of recently digitized library books. The Harvard Cultural Observatory already collaborated with Google Books on the <a href=http://ngrams.googlelabs.com/>Google ngrams viewer</a>that has data for years. Bookworm doesn't work so closely with Google Books: instead, it uses <b>books in the public domain</b> so you can explore the information we know about a book from many angles at once: genre, author information, publication place, and so on. We're submitting it as part of the Digital Public Library of America's Beta Sprint initiative.</p>
+<h2>What can I do with it?</h2>
+<p> Library metadata makes all sorts of interesting queries possible. For example:
+<li> Say you want to know about the history of Social Darwinism: when did "evolution" cross over from the sciences into the social sciences? You can compare the paths of <a href= 
+http://bookworm.culturomics.org/?{%22query%22%3A{%22index%22%3A0%2C%22time_measure%22%3A%22year%22%2C%22time_limits%22%3A[1815%2C1922]%2C%22counttype%22%3A%22Percentage_of_Books%22%2C%22words_collation%22%3A%22Case_Sensitive%22%2C%22smoothingSpan%22%3A%225%22%2C%22search_limits%22%3A[{%22word%22%3A[%22evolution%22]%2C%22lc0%22%3A[%22Q%22]}%2C{%22word%22%3A[%22evolution%22]%2C%22lc0%22%3A[%22H%22]}%2C{%22word%22%3A[%22evolution%22]%2C%22lc0%22%3A[%22P%22]}]}%2C%22terms%22%3A[%22evolution%22]%2C%22category_data%22%3A[[[%22state%22%2C[]]%2C[%22lc1%22%2C[]]%2C[%22country%22%2C[]]%2C[%22lc0%22%2C[%22Q%22]]]%2C[[%22state%22%2C[]]%2C[%22lc1%22%2C[]]%2C[%22country%22%2C[]]%2C[%22lc0%22%2C[%22H%22]]]%2C[[%22state%22%2C[]]%2C[%22lc1%22%2C[]]%2C[%22country%22%2C[]]%2C[%22lc0%22%2C[%22P%22]]]]%2C%22comparison%22%3A%22texts%22}
+>keywords like "evolution"</a> in different genres. </li>
+ <li>You can also use geographical information to make comparisons. Suppose that you want to know whether British or American fiction has more female characters. 
+<a href=
+http://bookworm.culturomics.org/?{%22query%22%3A{%22index%22%3A0%2C%22time_measure%22%3A%22year%22%2C%22time_limits%22%3A[1815%2C1922]%2C%22counttype%22%3A%22Occurrences_per_Million_Words%22%2C%22words_collation%22%3A%22Case_Sensitive%22%2C%22smoothingSpan%22%3A%225%22%2C%22search_limits%22%3A[{%22word%22%3A[%22she%22]%2C%22lc1%22%3A[%22PZ%22]%2C%22country%22%3A[%22UK%22]}%2C{%22word%22%3A[%22she%22]%2C%22lc1%22%3A[%22PZ%22]%2C%22country%22%3A[%22USA%22]}]}%2C%22terms%22%3A[%22she%22]%2C%22category_data%22%3A[[[%22state%22%2C[]]%2C[%22lc1%22%2C[%22PZ%22]]%2C[%22country%22%2C[%22UK%22]]%2C[%22lc0%22%2C[]]]%2C[[%22state%22%2C[]]%2C[%22lc1%22%2C[%22PZ%22]]%2C[%22country%22%2C[%22USA%22]]%2C[%22lc0%22%2C[]]]]%2C%22comparison%22%3A%22texts%22}
+>Searching for female pronouns</a> shows you that American literature does seem to use 'she' a little bit more. But you'll need to do some more searches, and look at some books, to be sure.</li> 
+<li>Although you can't (yet) do multiword phrases, you are able to combine words if you want to search for things like plurals or places that have two names; you can, for example <a href=
+http://bookworm.culturomics.org/?{%22query%22%3A{%22index%22%3A0%2C%22time_measure%22%3A%22year%22%2C%22time_limits%22%3A[1730%2C1922]%2C%22counttype%22%3A%22Occurrences_per_Million_Words%22%2C%22words_collation%22%3A%22Case_Sensitive%22%2C%22smoothingSpan%22%3A%223%22%2C%22search_limits%22%3A[{%22word%22%3A[%22fo%22]}%2C{%22word%22%3A[%22fo%22%2C%22so%22]}%2C{%22word%22%3A[%22so%22]}]}%2C%22terms%22%3A[%22fo%22%2C%22fo%2Cso%22%2C%22so%22]%2C%22category_data%22%3A[[[%22state%22%2C[]]%2C[%22lc1%22%2C[]]%2C[%22country%22%2C[]]%2C[%22lc0%22%2C[]]]]%2C%22comparison%22%3A%22word%22}
+>examine the history of the "long-s"</a> by comparing the usage of the words "fo" and "so" together and apart.
+<li>You don't have to plot by publication year, either: you can use a number of different variables, including the age of the author when the book was published. Death and taxes may be the only two constants in life, but authors seem to care about them at different ages: <a href=
+http://bookworm.culturomics.org/?{%22query%22%3A{%22index%22%3A0%2C%22time_measure%22%3A%22author_age%22%2C%22time_limits%22%3A[22%2C88]%2C%22counttype%22%3A%22Occurrences_per_Million_Words%22%2C%22words_collation%22%3A%22Case_Sensitive%22%2C%22smoothingSpan%22%3A%225%22%2C%22search_limits%22%3A[{%22word%22%3A[%22Death%22]}%2C{%22word%22%3A[%22taxes%22]}]}%2C%22terms%22%3A[%22Death%22%2C%22taxes%22]%2C%22category_data%22%3A[[[%22state%22%2C[]]%2C[%22lc1%22%2C[]]%2C[%22country%22%2C[]]%2C[%22lc0%22%2C[]]]]%2C%22comparison%22%3A%22word%22}
+>the young and old talk more about death, while only the safely middle-aged seem to care about taxes.</a>
+</p>
+  <h2>What Books does this use?</h2>
+  <p> All of our site builds on the amazing work of the <a href=http://openlibrary.org>Open Library</a> and <a href=http://archive.org>Internet Archive</a> projects. The Internet Archive makes scans of books publically available to the public with Optical Character Recognition already perfomed. The books come mostly from major research libraries and are scanned by the Internet Archive itself, Google, Microsoft and other scanning initiatives. The Open Library is the Internet Archive's cataloging wing; they hope to create a publically editable library catalogue with an entry for every book ever published. We hope to include all the million or so books listed in both the Open Library and the Internet Archive; currently we have roughly 300,000. (We'll have feedback soon on the number of books inside the book collections you make--for now, you can use the "Raw Counts" function to get a rough idea.</p>
+A zipped, tab-separated text file with the author, title, publication year, and Open Library edition ID number is available for download <a href = http://bookworm.culturomics.org/sources.txt.gz>here</a>. We are still fiddling with the composition of the corpus, and it may be a few days out of date. 
+
+<p>If you find <b>mistakes</b> in the catalog information (which you will!), you can go to a book's page at Open Library and correct whatever's wrong; when we next refresh our data against theirs, we'll get your changes in our system.</p>
+  <h2>What's in a Word</h2>
+<p>We only allow you to search for one word at a time. But what's a word? Basically, we split up the text at the spaces and keep a few punctuation marks attached in special cases described <a href=http://www.sciencemag.org/content/early/2010/12/15/science.1199644/suppl/DC1>here</a>. (Hopefully--we're still working out a few bugs). If a word is too rare (not in the top 700,000 words in the Google ngrams English corpus since 1700, accounting for the increasing number of books), it's not in the database. (There are a few other tricks to clean it up a bit more--contact us if you want to know the details).</p>
+<h2>Why are the Defaults 1830 to 1922?</h2>
+<p>Before 1830, there just aren't that many books printed, and many of the ones that were are fragile and so weren't included in the first round of book digitization. After 1922, copyright law keeps us from getting access to books even for this sort of project (call your congressperson to complain!). The books after 1922 are both scarce, and tend to be different than the pre-1922 books.</p>
+<h2>Why isn't the OCR/metadata/collection better?</h2> - This is a proof-of-concept for the Digital Public Library of America's Beta Sprint to show how new interfaces can unlock library books. There are still OCR misreadings, duplicate books, missing metadata fields, and all sorts of exciting problems. If you click through on the chart to actually read the books, you might be able to figure out what's going on. We've solved most of the really easy problems: think of all the rest of them as invitations to learn more about the condition of our digital resources. 
+    </li>
+  </ul>
+</div>
+
+
+
+
