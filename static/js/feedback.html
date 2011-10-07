@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Feedback Tab jQuery Plugin</title>
+<!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="feedback.jQuery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#feedback').feedback(); //plugin without options
+		/*$('#feedback').feedback({
+			'position': 'left',
+			'mouseoverColor' : 'blue',
+			'mouseoffColor' : 'black'	
+		});*/ //plugin with options
+	});
+</script>
+<style type="text/css">
+	body {height:1500px;}
+	/* any styles above this can be eliminated */
+	
+	/*include this sample css */
+	#feedback {
+		cursor:pointer;
+		border:3px solid #ddd;
+		border-right:0;
+	}
+</style>
+</head>
+<body>
+	<!--Put this image somewhere on your page -->
+	<img src="feedback.png" width="30" height="100" alt="feedback" id="feedback" />
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAA7g_7_oWgWlujHkL8ql9TLxSEbjQlOMNZJgf9J6qwaQ4n7PCH_RTkMDD3NMKRTpU7n6jMa79BLeC1MA"></script>
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<link rel='stylesheet' src='static/js/chosen/chosen.css' />
+	<script src='static/js/chosen/chosen.jquery.js'></script>
+</head>
+<body>
+  <script type=text/javascript>
+    var sample =  '{"time_measure":"year","time_limits":[1815,1922],"counttype":"Occurrences per Million Words","words_collation":"Case Insensitive","search_limits":[{"word":["Boston"],"lc1":["BF"]}]}';
+    var defaultmethod = "return_query_values"
+    $(document).ready(function(){
+		$('#testt').chosen();
+    console.log('hi');
+    $('#query').val(sample);
+    $('#method').val(defaultmethod);
+    $('#submitbutton').click(function(){
+    $.ajax({
+      url: '/cgi-bin/corebindings.py',
+      data: 'method='+$('#method').val()+'&queryTerms='+$('#query').val(),
+      type: 'post',
+      success: function(data){
+      var dataSplit = data.split('html');
+      //var dataEval = eval(dataSplit[1]);
+      $('#test').html(data);
+    }
+    });
+    });
+    });
+  </script>
+  <textarea id=query rows=10 cols=100></textarea>
+  <textarea id=method rows=1 cols=100></textarea>
+  <input type=submit id=submitbutton>
+  <div id='test'>
+
+	<select id=testt class=chosen>
+	<option>blah</option>
+	</select>
+
+  </div>
+</body>
+</html>

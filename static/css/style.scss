@@ -1,0 +1,195 @@
+#loader{
+	width:905px;
+	height:305px;
+}
+.loading{
+	background: url(/beta/static/images/ajax-loader.gif) no-repeat center center;
+}
+h1{
+font-family: 'Droid Sans', sans-serif;
+}
+.booklink,.bookauthor,.medialcheck, p, .toggleoptions, label {
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size:13px;
+}
+.booktitle{
+		font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size:13px;
+	font-weight: bold;
+}
+#bookdivtitle{
+		font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size:15px;
+	font-weight: bold;
+}
+.top td{
+	vertical-align: top;
+}
+div .searchbox{
+	width: 500px;
+}
+
+td .searchlabel{
+	width: 144px;
+}
+
+#chart {
+	height: 400px;
+	width: 60%;
+	float: right;
+}
+
+#settings {
+	position: relative;
+}
+#queries {
+	height: 350px;
+
+}
+#container {
+float: left;
+width: 40%;
+}
+
+input, .search-field .default, .search-choice, .active-result, .no-results {
+	font-family: 'Droid Sans';
+}	
+
+h1 {
+	font-size: 24px;
+	font-family: 'Droid Sans',Arial, 'Liberation Sans', FreeSans, sans-serif;
+	margin: 0px;
+}
+h2 {
+	font-size: 18px;
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	margin: 0px;
+}
+
+
+#footer{
+padding-top: 10px;
+text-align: center;
+	clear: both;
+}
+
+p.foot {
+	font-size: 10px;
+}
+
+td {
+	padding-right: 5px;
+}
+
+#errors {
+	height: 20px;
+}
+
+#errors p{
+	color: red;
+}
+
+#pagination{
+	text-align: middle;
+}
+
+.help li, #plus{
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size:13px;
+}
+
+.fieldset_legend{
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size:13px;
+
+}	
+.category_box_template{
+	display: none;
+}
+
+.category_box tbody{
+	background-color: #A0FA9B;
+}
+
+
+.limit_box tbody{
+	background-color: #D9D9D9;
+}
+.box a{
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size:14px;
+	text-decoration: none;
+	color: #387835;
+	margin-right: 0px;
+}
+.category_box a{
+	color: #000000;
+}
+td.color {
+	width: 20px;
+	vertical-align: middle;
+}	
+div.color{
+	width:15px;
+	height: 15px;
+	background-color: red;
+}
+.limit_box a{
+	color: #000000;
+}
+.box td{
+	padding: 1px 3px;
+	margin: 0 auto;
+}
+.box table{
+	border-spacing: 1px;
+}
+.box .category_box_data {
+	padding: 1px 8px;
+}
+.box .category_box_x {
+	padding: 1px 4px;
+}
+.box .category_box_row td:first-child {
+	border-radius: 3px 0px 0px 3px;
+}
+.box .category_box_row td:last-child {
+	border-radius: 0px 3px 3px 0px;
+}
+
+.box a:hover {
+	text-decoration: underline;
+}
+
+.termlabel {
+	font-weight: bold;
+	padding: 0px 3px;
+	margin: 2px 0px;
+}
+h3 {
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	margin: 3px 0px;
+}	
+.ngrams {
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size: 16px;
+}
+
+.plus_word {
+font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-size: 13px;
+
+}
+
+select {
+	font-family: 'Droid Sans', Arial, sans;
+}
+#chart_message, .labeler {
+	font-family: 'Droid Sans', Arial, 'Liberation Sans', FreeSans, sans-serif;
+	font-weight:bold;
+	font-size: 13px;
+}
+
+#limit_div{
+	height:50px;
+}

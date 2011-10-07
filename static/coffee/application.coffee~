@@ -1,0 +1,471 @@
+$ -> (
+	options = undefined
+	terms = 'Word(s)'
+	limits = []
+	numCatBoxes = 0
+	numWordBoxes = 1
+	numSeries = 0
+	colors = ['','251, 128, 114','128, 177, 211','253, 180, 98','179, 222, 105','141, 211, 199','190, 186, 218','252, 205, 229','217, 217, 217']
+	hexColors = ['','#FB8072','#80B1D3','#FDB462','#B3DE69','#8DD3C7','#BEBADA','#FCCDE5','#D9D9D9']
+	limit = 8
+	data = []
+	bookLinks=[]
+
+	#load options.json
+	$.ajax(
+		url:'static/options.json'
+		dataType: 'json'
+		success: (response) ->  (
+			options = response
+			console.log options
+			
+			initializeSelectBoxes()
+			newSlider()
+			firstQuery()
+		)
+	)
+	firstQuery = ->
+		$('input.ngrams').val('Boston')
+		runQuery()
+
+	#initializes options boxes
+	initializeSelectBoxes = ->
+		$('.group_select_div').append '<select class=group_select> </select>'
+		$('.limit_select_div').append '<select class=group_select> </select>'
+		option_names = options['sort_order']
+		option_array = (options['descriptions'][option_name] for option_name in option_names)
+		#time selection
+		for option in option_array when option['type']=='time'
+			$('#yeartype').append "<option value='#{option['dbfield']}'>#{option['name']}</option"
+
+		#fix ui
+		fixGroupSelect()
+	#image html strings
+	xImg = '<input type="image" src="static/images/x.png" height=12 width=12 class=x></input>'
+
+	#add new words box click
+	$('#plus_word').click ->
+		numWordBoxes++
+		$('.terms tbody').append('<tr class=term_tr></tr>')
+		$('tr.top td.ngrams').clone()
+			.appendTo('.terms tr:last')
+		$('<td class=color><span class=color><div class=color></div></span> </td>')
+			.appendTo('.terms tr:last')
+
+		$("<td>#{xImg}</td>")
+			.css('vertical-align','middle')
+			.appendTo('.terms tr:last')
+		
+		fixWordColors()
+
+	#event for group-by select change
+	$('#main_select').change -> fixGroupSelect()
+	#fix group select
+	fixGroupSelect = ->
+		newval = $('#main_select').val()
+		numCatBoxes = 0
+		numWordBoxes = 1
+		$('.box_tr').remove()
+		$('.cat_div').remove()
+		$('.term_tr').remove()
+		$('div.color').remove()
+		#fix UI if splitting by words
+		if newval!='word'
+			$('#define_label').html('collections')
+			$('#plus').show()
+			$('#plus').click()
+			$('#plus').click()
+			$('#plus_word').hide()
+		if newval=='word'
+			$('#define_label').html('collection')
+			$('#plus').hide()
+			$('#plus_word').show()
+			$('#plus').click()
+			$('.terms tr.top td.color').append('<div class=color></div>')
+			#kill x
+			$('.category_box td.category_box_x').remove()
+			$('.category_box .category_box_row td').css('border-radius', '3px')
+			fixWordColors()
+	
+	#word input key functions
+	$('input.ngrams').live('keydown',
+		(event) ->
+			#tabbing
+			if event.keyCode == 9
+				event.preventDefault()
+				if not event.shiftKey
+					$(":input.ngrams:eq(#{$(':input.ngrams').index(this) + 1})").focus()
+				if event.shiftKey
+					$(":input.ngrams:eq(#{$(':input.ngrams').index(this) - 1})").focus()
+
+			#enter
+			if event.keyCode == 13
+				runQuery()
+	)
+
+	#change for yeartype
+	$('#yeartype').change ->
+		newSlider()
+
+	#newSlider
+	newSlider = ->
+		year_option = options['descriptions'][$('#yeartype').val()]
+		console.log year_option
+		$('#year-slider').slider(
+			range: true
+			min: year_option['numeric']['range'][0]
+			max: year_option['numeric']['range'][1]
+			values: year_option['numeric']['defaults']
+			slide: (event, ui) ->
+				$("#years").val "#{ui.values[0]} - #{ui.values[1]}"
+		)
+		$("#years").val(year_option['numeric']['defaults'].join(' - '))
+
+	#live for wordinput x buttons
+	$('input.x').live(
+		'click',
+		->
+			$(this).parents('tr.term_tr').remove()
+			fixWordColors()
+			numWordBoxes--
+	)
+
+	#x-buttons for split-cat boxes
+	$('.category_box a.box_x').live('click', ->
+		$(this).parents('.box_tr').remove()
+		#grab box_id from div
+		box_id = $(this).parents('span.category_box').attr('id').split('_')[2]
+		$("#wrapper_cat_div_#{box_id}").remove()
+		fixColors()
+	)
+
+		
+	#handle adding new comparison fields
+	$('#plus').click ->
+		numCatBoxes++
+		$('#cat_boxes table.top').append('<tr class=box_tr> <td class=box_td></td></tr>')
+		$('#category_box_template')
+			.clone().removeClass('category_box_template').addClass('category_box')
+			.attr('id',"cat_box_#{numCatBoxes}")
+			.appendTo('#cat_boxes tr.box_tr:last td.box_td')
+		$("#cat_box_#{numCatBoxes} .box_data").html("None")
+		fixColors()
+		createCategoryDiv()
+		fixSlugs()
+
+	fixColors = ->
+		if $('#main_select').val() == 'texts'
+			$('.category_box').each ((i,v) ->
+				$(this).find("tbody").css('background-color',"rgba(#{colors[i+1]},1)")
+			)
+		if $('#main_select').val() == 'word'
+			$('.category_box').each ((i,v) ->
+				$(this).find("tbody").css('background-color',"#CCCCCC")
+			)
+	fixWordColors = ->
+		$('div.color').each ((i,v) ->
+			$(this).css('background-color',"rgba(#{colors[i+1]},1)")
+		)
+
+	#handle new category divs
+	createCategoryDiv = ->
+		divName = "cat_div_#{numCatBoxes}"
+		$('<div></div>').css('display','none').attr('id',"wrapper_#{divName}").addClass('cat_div').appendTo('body')
+		$('<div></div>').attr('id',divName).data('box_num',"#{numCatBoxes}").addClass('sub_cat_div').css('display','').appendTo("#wrapper_#{divName}")
+		$("##{divName}").append(divName)
+		$("#cat_box_#{numCatBoxes} a.box_data").colorbox(
+				width: '50%'
+				height: '80%'
+				inline: true
+				href: "##{divName}"
+		)
+		addFormToDiv(divName)
+
+
+	#make those popup divs have forms
+	addFormToDiv = (divName) ->
+		divName = "##{divName}"
+		$(divName).html('')
+		$(divName).append("<h3>Define Corpus</h3><hr />")
+		$(divName).append('<table><tr></tr></table>')
+		for option_name in options['sort_order']
+			option = options['descriptions'][option_name]
+			if option['type'] == 'categorical'
+				$("#{divName} table").append("<tr class=datarow></tr>")
+				$("#{divName} tr:last").data('name',option['dbfield'])
+				option_nlist = option['categorical']['sort_order']
+				option_list = option['categorical']['descriptions']
+				$("#{divName} tr:last").append("<td><span class=labeler>#{option['name']}:</span></td>")
+				$("#{divName} tr:last").append("<select class=popup multiple=multiple style='width:350px;'></select>")
+				for option_n in option_nlist
+					$("#{divName} tr:last select").append("<option value=#{option_list[option_n]['dbcode']}>#{option_list[option_n]['name']}</option>")
+
+		$("#{divName} select").data('placeholder','All').chosen().change( -> slug($(this).parents('.sub_cat_div').attr('id')))
+	
+	fixSlugs = ->
+		$('.sub_cat_div').each( (i,v) ->
+			slug($(v).attr('id'))
+		)
+
+			
+	#get slug for box
+	getSlug = (divName) ->
+		a = getChecked "##{divName}"
+		good_opts = (op for op in a when op[1].length !=0)
+		console.log good_opts
+		optlist = []
+		if good_opts.length==0
+			return 'All books'
+		for good_opt in good_opts
+			opt_text = ''
+			if good_opt[1].length==1
+				 opt_text = good_opt[1][0]
+			if good_opt[1].length==2
+					opt_text = good_opt[1].join(', ')
+			if good_opt[1].length>=3
+				opt_text = "#{good_opt[1][0]}, [#{good_opt[1].length-2} more], #{good_opt[1][good_opt[1].length-1]}"
+			optlist.push([good_opt[0], opt_text])
+		return (op.join(': ') for op in optlist).join(' | ')
+	
+	getChecked = (divName) ->
+		cats = []
+		$(divName).find("tr.datarow").each( (i2, v2) ->
+			cats.push [$(v2).data('name'),($(v).val() for v in $(v2).find('option:selected'))]
+		)
+		cats
+
+	#slugs for little boxes
+	slug = (divName) ->
+		slugText=getSlug divName
+		console.log slugText
+		divvy=divName.split('_')
+		if divvy['0']=='cat'
+			boxDiv="#{divvy[0]}_box_#{divvy[2]}"
+			console.log boxDiv
+			$("##{boxDiv} .box_data").html(slugText)
+
+	
+	#colorbox for help
+	$('a.help').colorbox(
+				width: '80%'
+				href: "help.html"
+	)
+
+	#build the query!
+	buildQuery = ->
+		ret = []
+
+		main_choice = $('#main_select').val()
+		if main_choice=='word'
+			terms =  ($(elt).val().split(',') for elt in $('input.ngrams'))
+			cats = []
+			$('.cat_div').each ((i,v) ->
+				$(v).find("tr.datarow").each( (i2, v2) ->
+					cats.push [$(v2).data('name'),($(v).val() for v in $(v2).find('option:selected'))]
+				)
+			)
+
+			console.log terms
+			console.log cats
+			index = 0
+			for term in terms
+				search_limits =
+					word: term
+					other_splits: []
+				for cat in cats
+					if cat[1].length != 0
+						search_limits[cat[0]]=cat[1]
+				query =
+					index: index
+					time_measure:  $('#yeartype').val()
+					time_limits: [$('#year-slider').slider("values", 0),$('#year-slider').slider("values",1)]
+					counttype: $('#collationtype').val()
+					words_collation: 'case insensitive'
+					'medial-s-correction': $('#medialcheck').is(':checked')
+					search_limits: search_limits
+					split_element: "word"
+				ret.push(query)
+				index++
+		if main_choice=='texts'
+			terms =  ($(elt).val().split(',') for elt in $('input.ngrams'))
+			term = terms[0]
+			cats = []
+			$('.cat_div').each ((i,v) ->
+				cat_arr = []
+				$(v).find("tr.datarow").each( (i2, v2) ->
+					cat_arr.push [$(v2).data('name'),($(v).val() for v in $(v2).find('option:selected'))]
+				)
+				cats.push cat_arr
+			)
+
+			console.log terms
+			console.log cats
+			index = 0
+			for cat_arr in cats
+				search_limits =
+					word: term
+					other_splits: []
+				for cat in cat_arr
+					if cat[1].length != 0
+						search_limits[cat[0]]=cat[1]
+				query =
+					index: index
+					time_measure:  $('#yeartype').val()
+					time_limits: [$('#year-slider').slider("values", 0),$('#year-slider').slider("values",1)]
+					counttype: $('#collationtype').val()
+					words_collation: 'case insensitive'
+					'medial-s-correction': $('#medialcheck').is(':checked')
+					search_limits: search_limits
+					split_element: "word"
+				ret.push(query)
+				index++
+
+		return ret
+
+	#view query code
+	$('#seequery').click ->
+		$('#querycode').html (JSON.stringify x for x in buildQuery()).toString()
+		$.colorbox(
+			width: '75%'
+			inline: true
+			href: "#querycode"
+		)
+
+	#validateQuery
+	validateQuery = ->
+		flag = false
+		error = ''
+		$('input.ngrams').each( (i,v) ->
+			if $(v).val() == ''
+				error = 'Word input empty.'
+				flag = true
+		)
+		if not flag
+			$('#errors p').html('')
+		if flag
+			$('#errors p').html(error)
+		return not flag
+
+	#post query code
+	$('#submit-query').click ->
+		(return false) unless validateQuery()
+		#loading symbol
+		runQuery()
+	runQuery = ->
+		$('#chart').html('')
+		$('#chart').addClass('loading')
+		queries = buildQuery()
+		data = []
+		$('#chart').ajaxStop(makeChart)
+		for i in [0...queries.length]
+			query = queries[i]
+			$.ajax (
+				url: '/cgi-bin/corebindings.py'
+				data: {method: 'plot', queryTerms: (JSON.stringify query)}
+				dataType: 'html'
+				success: (response)->
+					actual_string = response.split('html')[1]
+					data.push (JSON.parse actual_string)
+			)
+
+	makeChart = ->
+		numSeries=0
+		$('#chart').removeClass('loading')
+		$("#chart").html(data.toString())
+
+		#axis labels
+		xAxisLabel = data[0]['options']['xlab']
+		yAxisLabel = data[0]['options']['ylab']
+		xmin =  $('#year-slider').slider('values',0)
+		xmax =  $('#year-slider').slider('values',1)
+		
+		seriesArr = (dat['series'][0] for dat in data)
+		console.log 'series'
+		console.log seriesArr
+
+		series = []
+		for i in [0...seriesArr.length]
+			s = x for x in seriesArr when x['index']==i
+			numSeries++
+			vals = s['values']
+			ss = s['search_strings']
+			sdata = []
+			for year in [xmin..xmax] when (vals.hasOwnProperty year)
+				ss['year']=year
+				sdata.push {x: year, y:parseFloat(vals[year]), qString:JSON.stringify(ss) }
+			console.log s
+			serie =
+				name: s['Name']
+				data: sdata
+				color: hexColors[numSeries]
+			series.push serie
+		console.log series
+
+		chart = new Highcharts.Chart({
+			chart:
+				renderTo: 'chart'
+				type: 'line'
+			title:
+				text: null
+			xAxis:
+				title:
+					text: xAxisLabel
+				labels:
+					formatter: -> this.value
+				min: $('#year-slider').slider('values',0)
+				max: $('#year-slider').slider('values',1)
+			yAxis:
+				title:
+					text: yAxisLabel
+				min: 0
+			legend:
+				enabled: false
+			series: series
+			plotOptions:
+				line:
+					animation: true
+				series:
+					marker:
+						radius: 1
+					cursor: 'pointer'
+					events:
+						click: (event) ->
+							name = this.name
+							jsonReturn = JSON.parse event.point.qString
+							titleString = "Books for series #{name} in #{jsonReturn['year']}"
+							$('#bookdivtitle').html(titleString)
+							$.ajax(
+								url: '/cgi-bin/corebindings.py'
+								type: 'post'
+								data: {method: 'books', queryTerms: event.point.qString}
+								success: (response) -> 
+									response = response.split('html')[1]
+									dataArray = eval(response)
+									bookLinks=[]
+									for linkData in dataArray
+										cat_link = "<a class=booklink href='#{linkData['cat_url']}' target='_blank'>More info</a>"
+										read_link = "<a class=booklink href='#{linkData['read_url']}' target='_blank'>Read</a>"
+										row = "<tr><td><img src='#{linkData['cover-image']}' width=44 height=58 /></td><td><span class=booktitle>#{linkData['title']}</span><span class=bookauthor> by #{linkData['author']}</span><td>#{cat_link}</td><td>#{read_link}</td></tr>"
+										bookLinks.push row
+
+									$('#pagination').pagination(dataArray.length, {items_per_page: 10, callback: handlePaginationClick});
+									$('#bookdiv').html('<table></table>')
+									for i in [0...Math.min(6,dataArray.length)]
+										$('#bookdiv table').append(bookLinks[i])
+									
+									$.colorbox({width: '90%', inline: true, href: '#books'})
+								
+							)
+																	
+			tooltip:
+				formatter: ->
+					point = this.point
+					return "<b>#{point.series.name}</b><br />Year: #{point.x} <br />Freq: #{point.y}"
+		})
+#
+		handlePaginationClick = (new_page_id, pagination_container) ->
+			$('#bookdiv').html('<table></table>')
+			for i in [new_page_id*10...(new_page_id+1)*10]
+				$('#bookdiv table').append(bookLinks[i])
+			false
+)

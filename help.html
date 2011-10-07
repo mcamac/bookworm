@@ -1,0 +1,40 @@
+<head>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4871207-7']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<div class=help>
+  <h1>Help</h1><hr />
+  <p>Welcome to Bookworm!</p>
+  <h2> How to use: </h2>
+  <li><b>Setting Options</b>First, choose what kind of chart you want: a comparison of different words, or of multiple book collections. Then fill in the options: Bookworm will color code them as you enter them.  Pressing 'Submit Query' will create a new graph using your search options as a legend.</li> 
+<li><b>Viewing sources</b>The graph on the right displays results: click on a point to see books that match your search terms for that series and year. You can read the book at the Internet Archive, or view and edit the catalog information at the Open Library.</p>
+  <h2>Options</h2>
+  <ul>
+    <li><b>Term(s)</b> - Words to query. If you type more than one (separated by commas) the viewer will add the results for all your words together. If you want to compare two words, just add another field. <b>We currently only have data for single words (1-grams); more are coming!</b></li>
+    <li><b>Subject(s)</b> - For decades, librarians have put a lot of thought into where books should be shelved. Bookworm uses Library of Congress Catalog numbers from the Open Library to define book topic; we may add some other methods, like Library of Congress Subject Headings, soon.
+      <li><b>Place(s)</b> - We also use the information libraries store about place of publication to let you compare books published in different states and countries. </li>
+    <li><b>Time</b> - By default, the x-axis shows year of publication. You can also compare by looking at the year an author was born or by the author's age. (Share any cool patterns around that that you find--we're curious what they are.)Queries with publication dates before 1830 or after 1922 may produce strange results--see 'About' for more.</li>
+    <li><b>Quantity</b> - By default, we show the number of times your search terms appear per one million words published that year. Selecting 'Raw Counts' will give you the actual number of words published: this can be interesting to use with a word like 'of' if you just want to see how many words are in the full sample, or a particular subset. </li>
+      <li><b>Capitalization</b> - You can choose if you want to search case sensitively or not. (If not, the program will also return a few other very similar forms: the word 'the' will also include the French word 'thé', for example). You can also choose to include <b>all words with the same stem</b>: that will use the <a href = http://snowball.tartarus.org/algorithms/english/stemmer.html>Porter Stemming algorithm</a> (<a href = http://www.nltk.org/>NLTK</a> implementation) to try to find words with the same root. Finally, you can try an experimenental fix for some 18th-century books published before 1830 often printed the letter "S" in a way that looks like a modern "f", called the medial or <a href=http://en.wikipedia.org/wiki/Long_s>'long' s</a>. that confuses most Optical Character Recognition software. Use it with care: it currently changes all occasions of 'loft' to 'lost', for instance, because 'lost' is a much more common word.</li>
+  </ul>
+  <h2>Disclaimers</h2>
+  <ul>
+    <li><b>Beta</b> - This is a proof-of-concept for the Digital Public Library of America's Beta Sprint to show how new interfaces can unlock library books. There are still OCR misreadings, duplicate books, missing metadata fields, and all sorts of exciting problems. We've solved most of the really easy problems: think of all the rest of them as invitations to learn more about the condition of our digital resources. 
+    </li>
+  </ul>
+</div>
+
+
+
+
